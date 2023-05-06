@@ -1,0 +1,16 @@
+* {margin:0;padding:0;}/*border: 1px solid #000;*/
+
+:root {
+    --base-color: #4e3636;
+}
+
+#canvas {
+    display: block;
+    background: var(--base-color);
+}
+
+/*PC style*/
+@media screen and (min-width:769px) {}
+
+/*mobile device style*/
+@media screen and (max-width:768px) {}

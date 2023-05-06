@@ -1,0 +1,378 @@
+<html>
+<head>
+<style>
+p.shadow
+{
+    width: 600px;
+    height: 100px;
+    padding: 20px;
+    background-color: lightgrey;
+    box-shadow: 3px 3px 5px 15px lightblue;
+
+    color: rgb(251, 251, 21);
+    text-shadow: 1px 1px 5px black, 0px 0px 4px black, 3px 3px 40px purple, 2px 2px 30px purple;
+    font-size: 30px;
+    text-align: center;
+}
+
+/* hoverTable example, order matters*/
+#hoverTable
+{
+    border-collapse: collapse;
+    width: 100%;
+}
+#hoverTable td, #hoverTable th
+{
+    border-bottom: 1px solid black;
+    text-align: center; 
+    vertical-align: bottom;
+    padding: 12px;
+}
+#hoverTable th {
+    font-size: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: #04AA6D;
+    color: white;
+}
+#hoverTable tr:nth-child(even)
+{
+    background-color:#f2f2f2;
+}
+#hoverTable tr:hover
+{
+    color: white;
+    background-color: coral;
+}
+/* hoverTable end*/
+/*button*/
+.button {
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+.button1 
+{
+  background-color: white; 
+  color: black; 
+  border: 2px solid #4CAF50;
+}
+.button1:hover 
+{
+  background-color: #4CAF50;
+  color: white;
+}
+.button2
+{
+  background-color: white; 
+  color: black; 
+  border: 2px solid #008CBA;
+}
+.button2:hover 
+{
+  background-color: #008CBA;
+  color: white;
+}
+/*button end*/
+/*navigation bar*/
+#bar {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+#bar li {
+  float: left;
+}
+
+#bar li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+#bar li a:hover {
+  background-color: coral;
+}
+/*navigation bar end*/
+/*navbar dropdown*/
+ul { /* 取消ul預設的內縮及樣式 */
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    ul.drop-down-menu {
+        border: 1px solid #ccc;
+        display: inline-block;
+        font-size: 13px;
+    }
+
+    ul.drop-down-menu li {
+        position: relative;
+        white-space: nowrap;
+        border-right: #ccc 1px solid;
+    }
+
+    ul.drop-down-menu > li:last-child {
+        border-right: none;
+    }
+
+    ul.drop-down-menu > li {
+        float: left; /* 只有第一層是靠左對齊*/
+    }
+
+     ul.drop-down-menu a {
+        background-color: #f2f2f2;
+        color: black;
+        display: block;
+        padding: 15px 30px;
+        text-decoration: none;
+    }
+    ul.drop-down-menu a:hover { /* 滑鼠滑入按鈕變色*/
+        background-color: #ef5c28;
+        color: #fff;
+    }
+    ul.drop-down-menu li:hover > a { /* 滑鼠移入次選單上層按鈕保持變色*/
+        background-color: #ef5c28;
+        color: #fff;
+    }
+ ul.drop-down-menu ul {
+ 		display: none;
+        border: #ccc 1px solid;
+        position: absolute;
+        top: 100%;
+       	min-width: 180px;
+    }
+
+    ul.drop-down-menu ul li {
+        border-bottom: #ccc 1px solid;
+    }
+
+    ul.drop-down-menu ul li:last-child {
+        border-bottom: none;
+    }
+
+    ul.drop-down-menu ul ul { /*第三層以後的選單出現位置與第二層不同*/
+    	border: #ccc 1px solid;
+        position: absolute;
+        top: 0px;
+        left: 100%;
+    }
+	
+    ul.drop-down-menu li:hover > ul { /* 滑鼠滑入展開次選單*/
+        display: block;
+    }
+/*navbar dropdown end*/
+/*position*/
+div.absolute1 {
+  position: absolute;
+  bottom: 30px;
+  width: 237px;
+  height: 250px;
+  border: 3px dashed red;
+} 
+
+div.absolute {
+  position: absolute;
+  top: 0px;
+  right: 0;
+  width: 100px;
+  border: 3px solid blue;
+}
+/*position end*/
+</style>
+</head>
+<body>
+    <p class="shadow"> Example of text-shadow and box-shadow.</p>
+
+    <table id="hoverTable">
+        <tr>
+            <th> First Name </th>
+            <th> Last Name </th>
+            <th> Points </th>
+        </tr>
+        <tr>
+            <td> Jonathan </td>
+            <td> Huang </td>
+            <td> infinite </td>
+        </tr>
+        <tr>
+            <td> Toast </td>
+            <td> Disguised </td>
+            <td> 10 </td>
+        </tr>
+        <tr>
+            <td> sykkuno </td>
+            <td> none </td>
+            <td> 9 </td>
+        </tr>
+        <tr>
+            <td> tarik </td>
+            <td> none </td>
+            <td> 8 </td>
+        </tr>
+    </table>
+
+    <button class="button button1">Green</button>
+    <button class="button button2">Blue</button>
+
+    <ul id="bar">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#news">News</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+
+    <p></p>
+
+    <ul class="drop-down-menu">
+        <li><a href="#">header1</a>
+            <ul>
+                <li><a href="#">link1</a>
+                </li>
+                <li><a href="#">link2</a>
+                </li>
+                <li><a href="#">link3</a>
+                </li>
+            </ul>
+        </li>
+        <li><a href="#">header2</a>
+            <ul>
+                <li><a href="#">menu1</a>
+                    <ul>
+                        <li><a href="#">link4</a>
+                        </li>
+                        <li><a href="#">link5</a>
+                        </li>
+                        <li><a href="#">link6</a>
+                        </li>
+                    </ul>
+
+                </li>
+                <li><a href="#">menu2</a>
+                    <ul>
+                        <li><a href="#">link7</a>
+                        </li>
+                        <li><a href="#">link8</a>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="#">menu3</a>
+                    <ul>
+                        <li><a href="#">link9</a>
+                        </li>
+                        <li><a href="#">link10</a>
+                        </li>
+                        <li><a href="#">menu4</a>
+                            <ul>
+                                <li><a href="#">link11</a>
+                                </li>
+                                <li><a href="#">link12</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="#">link13</a>
+                </li>
+            </ul>
+        </li>
+        <li><a href="#">header3</a>
+        </li>
+        <li><a href="#">header4</a>
+        </li>
+    </ul>
+
+    <div style="position:relative; border: 2px solid green; width: 500px; height: 500px;">
+        <div style="position:absolute; top: 50px; left: 50px; border: 2px solid green; height: 80px; width: 200px;">this div is on the right side.</div>
+        <div class="absolute">this div is not on the right side.</div>
+
+        <div class="absolute1" style="left: 5px;">section 1</div>
+        <div class="absolute1" style="right: 5px;">section 1</div>
+    </div> 
+
+    <br>
+
+    <FORM action="mailto:0209jonathan@gmail.com" method="post" enctype="text/plain">
+
+        <FIELDSET>
+        
+          <LEGEND>個人資訊</LEGEND>
+        
+          您的貴姓: <INPUT name="lastname" type="text" tabindex="11"><BR>
+        
+          您的大名: <INPUT name="firstname" type="text" tabindex="10"><BR>
+        
+          住址: <INPUT name="address" type="text" size=30 tabindex="9"><BR>
+        
+          性別:<INPUT NAME="sex" TYPE=radio VALUE="male" tabindex="8">男
+          <INPUT NAME="sex" TYPE=radio VALUE="female" tabindex="7">女
+          <INPUT NAME="sex" TYPE=radio VALUE="bi" tabindex="15">雙性
+          </FIELDSET>
+        
+        
+        <BR>
+        
+        <FIELDSET>
+          <LEGEND>其它資訊</LEGEND>
+        
+          您常從事的休閒活動:<BR>
+        
+          <TABLE>
+          
+          <TR>
+          <TD><INPUT NAME="leisure" TYPE=checkbox VALUE=movie tabindex="6">看電影<BR>
+          <TD><INPUT NAME="leisure" TYPE=checkbox VALUE=tv tabindex="5">看電視<BR>
+        
+          <TR>
+          <TD><INPUT NAME="leisure" TYPE=checkbox VALUE=book tabindex="4">讀書<BR>
+          <TD><INPUT NAME="leisure" TYPE=checkbox VALUE=computer tabindex="3">打電腦<BR>
+        
+          </TABLE>
+        
+        
+          星座:
+          
+          <SELECT NAME="Astro" tabindex="2" size="1" >
+          <OPTION VALUE=Aries>牡羊座       <OPTION VALUE=Taurus>金牛座
+          <OPTION VALUE=Eridanus>雙子座    <OPTION VALUE=Cancer>巨蟹座
+          <OPTION VALUE=Leo>獅子座         <OPTION VALUE=Vigro>室女座
+          <OPTION VALUE=Libra>天秤座       <OPTION VALUE=Scorpius>天蠍座
+          <OPTION VALUE=Sagittarius>射手座 <OPTION VALUE=Capricornus>山羊座
+          <OPTION VALUE=Aquarius>水瓶座    <OPTION VALUE=Pisces>雙魚座
+          </SELECT>
+        
+          </FIELDSET>
+        
+        
+        
+        <BR>
+        <FIELDSET>
+          <LEGEND>意見欄</LEGEND>
+        
+          <TEXTAREA name="extra" rows="3" cols="40" wrap="off" tabindex="1">預設文字</TEXTAREA>
+        
+        </FIELDSET>
+        
+        
+        <HR>
+        
+        <INPUT TYPE=SUBMIT VALUE="輸入完畢" >
+        <INPUT TYPE=RESET VALUE="重新來過">
+        
+        </FORM>
+
+</body>
+</html>

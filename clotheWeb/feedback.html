@@ -1,0 +1,188 @@
+﻿
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>古添樂</title>
+    <style>
+        body {
+            margin-left: 0px;
+            margin-right: 0px;
+            background-color: white;
+        }
+
+        a:link {
+            color: black;
+        }
+
+        a:hover {
+            color: firebrick;
+        }
+
+
+        .top {
+            font-size: 22px;
+            font-family: 微軟正黑體;
+            letter-spacing: 9px;
+            color: black;
+            font-weight: bolder;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 50px;
+            color: saddlebrown;
+            -webkit-text-fill-color: saddlebrown;
+            -webkit-text-stroke: 1.5px saddlebrown;
+        }
+
+        .information {
+            font-size: 20px;
+            text-align: center;
+        }
+
+        fieldset {
+            width: 750px;
+            border: 2px solid saddlebrown;
+            border-radius: 16px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 15px;
+        }
+
+        textarea {
+            width: 800px;
+            height: 70px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 15px;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 16px;
+            background-color: #f8f8f8;
+            font-size: 16px;
+            resize: none;
+        }
+
+            textarea:hover, input:hover {
+                background-color: #e3e0dd;
+            }
+
+        .title4 {
+            font-size: 15px;
+            font-family: 微軟正黑體;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">古添樂</div>
+    <hr>
+    <center>
+        <a style="text-decoration:none;" href="oldaddhappy.html" class="top">首頁 </a>
+        <a style="text-decoration:none;" href="staff.html" class="top"> 員工資訊 </a>
+        <a href="#inform" class="top" style="text-decoration:none;">店家資訊 </a>
+        <a style="text-decoration:none;" href="item.html" class="top">所有商品&nbsp</a>
+        <a style="text-decoration:none;" href="form.html" class="top"> 財務報表 </a>
+        <a href="feedback.html" class="top" style="text-decoration:none;">顧客回饋 </a>
+        <a href="schedule.html" class="top" style="text-decoration:none;">行事曆</a>
+    </center>
+    <hr>
+
+    <form action="mailto:123456789@gmail.com" method="post" enctype="Text/Plain">
+        <fieldset>
+            <legend style="font-size: 16px;">個人資訊</legend>
+            <span style="font-size: 16px;">姓　 名：</span> <input style="border-radius: 8px;" name="name" type="text" size="10" class="title4"><br>
+            <br>
+            <span style="font-size: 16px;">電子郵件：</span> <input style="border-radius: 8px;" name="email" type="text" size="30" class="title4"><br>
+            <br>
+            <span style="font-size: 16px;"> 性　 別：</span>
+            <label class="title4"><input name="sex" value="male" type="radio"> 男性</label>
+            <label class="title4"><input name="sex" value="female" type="radio"> 女性</label>
+        </fieldset><br>
+
+        <fieldset style="background-color: rgb(246, 211, 166);">
+            <span style="font-size: 16px;">我們員工的服務:&nbsp;</span>
+            <label class="title4"><input name="service" value="1" type="radio"> 1星</label>
+            <label class="title4"><input name="service" value="2" type="radio"> 2星</label>
+            <label class="title4"><input name="service" value="3" type="radio"> 3星</label>
+            <label class="title4"><input name="service" value="4" type="radio"> 4星</label>
+            <label class="title4"><input name="service" value="5" type="radio"> 5星</label>
+            <br><br>
+            <span style="font-size: 16px;">衣服的舒適度: &nbsp;&nbsp;&nbsp;</span>
+            <label class="title4"><input name="comfortable" value="1" type="radio"> 1星</label>
+            <label class="title4"><input name="comfortable" value="2" type="radio"> 2星</label>
+            <label class="title4"><input name="comfortable" value="3" type="radio"> 3星</label>
+            <label class="title4"><input name="comfortable" value="4" type="radio"> 4星</label>
+            <label class="title4"><input name="comfortable" value="5" type="radio"> 5星</label>
+            <br><br>
+            <span style="font-size: 16px;">衣服的款式: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <label class="title4"><input name="types" value="1" type="radio"> 1星</label>
+            <label class="title4"><input name="types" value="2" type="radio"> 2星</label>
+            <label class="title4"><input name="types" value="3" type="radio"> 3星</label>
+            <label class="title4"><input name="types" value="4" type="radio"> 4星</label>
+            <label class="title4"><input name="types" value="5" type="radio"> 5星</label>
+            <br><br>
+            <span style="font-size: 16px;">店面環境整潔: &nbsp;&nbsp;&nbsp;</span>
+            <label class="title4"><input name="clearness" value="1" type="radio"> 1星</label>
+            <label class="title4"><input name="clearness" value="2" type="radio"> 2星</label>
+            <label class="title4"><input name="clearness" value="3" type="radio"> 3星</label>
+            <label class="title4"><input name="clearness" value="4" type="radio"> 4星</label>
+            <label class="title4"><input name="clearness" value="5" type="radio"> 5星</label>
+            <br><br>
+            <span style="font-size: 16px;">整體滿意度: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <label class="title4"><input name="satisfaction" value="1" type="radio"> 1星</label>
+            <label class="title4"><input name="satisfaction" value="2" type="radio"> 2星</label>
+            <label class="title4"><input name="satisfaction" value="3" type="radio"> 3星</label>
+            <label class="title4"><input name="satisfaction" value="4" type="radio"> 4星</label>
+            <label class="title4"><input name="satisfaction" value="5" type="radio"> 5星</label>
+        </fieldset><br>
+
+        <textarea name="extra" rows="5" cols="35" tabindex="1">Leave a comment:</textarea>
+
+        <p>
+            <center>
+                <input style="border: 1px solid #ccc; padding: 8px 16px; border-radius: 8px;" type="submit" value="輸入完畢">
+            </center>
+        </p>
+
+        <br><br><br><br><br><br>
+
+        <fieldset>
+            <legend style="font-size: 20px; color:rgb(172, 9, 109); font-style: italic;"><b>Customer Feedback Board</b></legend>
+            <span style="font-size: 30px;">😵‍💫:</span><span style="font-size: 20px;">&nbsp; 店員親切溫柔好帥好美好暈喔</span>
+            <br><hr style="width: 85%; border-color: white ;">
+            <span style="font-size: 30px;">🙂:</span><span style="font-size: 20px;">&nbsp; 恩 還不錯<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;跟GUCCI有的拼</span>
+            <br><hr style="width: 85%; border-color: white ;">
+            <span style="font-size: 30px;">🥸:</span><span style="font-size: 20px;">&nbsp; 猴子最討厭畫什麼線？ Ans: 平行線，因為沒有相交（香蕉）</span>
+            <br><hr style="width: 85%; border-color: white ;">
+            <span style="font-size: 30px;">😊:</span><span style="font-size: 20px;">&nbsp; 超喜歡這家，品質保證</span>
+            <br><hr style="width: 85%; border-color: white ;">
+            <span style="font-size: 30px;">😄:</span><span style="font-size: 20px;">
+                &nbsp; 樹長到一千年稱之為千年老木，那超過千年很多的呢？<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ans: 超齡老木
+            </span>
+            <br><hr style="width: 85%; border-color: white ;">
+            <span style="font-size: 30px;">🤩:</span><span style="font-size: 20px;">&nbsp; 便宜又好穿又好看又帥氣～</span>
+            <br><hr style="width: 85%; border-color: white ;">
+            <span style="font-size: 30px;">😄:</span><span style="font-size: 20px;">&nbsp; 你知道世界上肚子最硬的人是誰嗎？ 是印度人（硬肚</span>
+            <br><hr style="width: 85%; border-color: white ;">
+            <span style="font-size: 30px;">😂:</span><span style="font-size: 20px;">&nbsp; 哈哈哈哈哈 好好笑</span>
+        </fieldset>
+
+    </form>
+
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <a name="inform"><div class="information">古添樂元智店:桃園市</div></a>
+    <br><div class="information">(內壢火車站步行10分鐘</div>
+    <br><div class="information">營業時間:8:00-21:00</div>
+    <br><div class="information">電子信箱:goodaddhappy.gmail.com</div>
+    <br>
+</body>
+</html>

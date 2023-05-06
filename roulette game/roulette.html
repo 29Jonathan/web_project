@@ -1,0 +1,1426 @@
+<!-- 
+取消下注
+重複下注，組合下注
+賭盤hover特效
+輪盤手動拉動
+輪盤雙向轉動
+輪盤停止前無法再次旋轉
+選轉時無法下注、取消
+中獎螢光
+顯示單格下注金額
+支援多位玩家 : 金額、下注情況獨立
+-->
+
+<html>
+
+  <head>
+    <title>Roulette Wheel</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=0.60, minimum-scale=0.60, maximum-scale=0.60">
+	<link rel="stylesheet" type="text/css" href="sample.css">
+	<style>
+	body {	   
+	font-family: Calibri;
+	font-size: 12px;
+	background: linear-gradient(to right, rgb(136, 97, 128), rgb(94, 48, 93), rgb(168, 113, 170));
+}
+	canvas{
+	position:absolute;
+	/* border:1px solid rgb(19, 18, 13); */
+	border-radius:500px;
+	top: 105px;
+	left: 46.5%;
+	padding: 15px;
+	/* background-color: lightyellow; */
+}
+td,tr {
+	
+	border: 1px solid black;
+	font-size: 24px;
+	border-radius: 10px;
+	transition:all 0.3s;
+}	
+td{
+	text-align:center;
+	width:50px;
+	
+}
+td:active{
+	font-size: 27px;
+
+}
+#blackbutton{
+	/*background-color:#212121;
+	margin: 0 auto;
+	transform:rotateY(0deg) rotateX(0deg) rotateZ(0deg)  skew(30deg,30deg);
+	width:30px;
+	height:30px;*/
+	width: 2px;
+	height: 0;
+	border: 10px solid transparent;
+	border-bottom: 31px solid#212121;
+	position: relative;
+	top: 1px;
+	left:62px;
+	transform:rotateZ(89deg);
+}
+
+
+#blackbutton:after {
+content: '';
+position: absolute;
+left: -10px; top: 30px;
+width: 2px;
+height: 0;
+border: 10px solid transparent;
+border-top: 30px solid#212121;
+}
+
+#redbutton{
+	/*background-color:#212121;
+	margin: 0 auto;
+	transform:rotateY(0deg) rotateX(0deg) rotateZ(0deg)  skew(30deg,30deg);
+	width:30px;
+	height:30px;*/
+width: 2px;
+height: 0;
+border: 10px solid transparent;
+border-bottom: 31px solid#f44336;
+position: relative;
+top: 1px;
+left:62px;
+transform:rotateZ(89deg);
+}
+
+
+#redbutton:after {
+content: '';
+position: absolute;
+left: -10px; top: 30px;
+width: 2px;
+height: 0;
+border: 10px solid transparent;
+border-top: 30px solid #f44336;
+}
+
+#bet_table{
+	margin: 200px auto;
+	
+}
+
+#back{
+	margin: 15px auto;
+	transform:rotateZ(0deg);
+	/* //border: 1px solid black; */
+	width:100%;
+	/* //height:450px; */
+	
+}
+#money{
+	position:absolute;
+	top:545px;
+	left: 36%;
+	width:180px;
+	height:80px;
+	line-height: 80px;
+	border: 1px solid black;
+	font-size: 42px;
+	text-align:center;
+	border-radius: 100px;
+	background-color: #FFF59D;
+}
+#Chip10{
+	position:absolute;
+	top:220px;
+	left:100px;
+	width:100px;
+	height:100px;
+	/* //border: 1px solid black; */
+	font-size: 42px;
+	text-align:center;
+	line-height: 100px;
+	border-radius: 100px;
+	background-color: #BDBDBD ;
+
+	transition:all, 0.2s;
+	/* box-shadow: 3px 5px 5px #888888; */
+}
+#Chip25{
+	position:absolute;
+	top:330px;
+	left:100px;
+	width:100px;
+	height:100px;
+	/* //border: 1px solid black; */
+	font-size: 42px;
+	text-align:center;
+	line-height: 100px;
+	border-radius: 100px;
+	background-color: #7986CB;
+	transition:all, 0.2s;
+	/* box-shadow: 3px 5px 5px #888888; */
+}
+#Chip100{
+	position:absolute;
+	top:440px;
+	left:100px;
+	width:100px;
+	height:100px;
+	/* //border: 1px solid black; */
+	font-size: 42px;
+	text-align:center;
+	line-height: 100px;
+	border-radius: 100px;
+	background-color: #FF3030;
+	transition:all, 0.2s;
+	opacity:0.9;
+	/* box-shadow: 3px 5px 5px #888888; */
+}
+#AllIn{
+	position:absolute;
+	top:570px;
+	left:100px;
+	width:100px;
+	height:65px;
+	/* //border: 1px solid black; */
+	font-size: 36px;
+	text-align:center;
+	line-height: 60px;
+	border-radius: 100px;
+	background-color: #212121;
+	color:white;
+	transition:all, 0.2s;
+	opacity:0.9;
+	/* box-shadow: 3px 5px 5px #888888; */
+}
+#Clear{
+	position:absolute;
+	top:570px;
+	left:220px;
+	width:100px;
+	height:65px;
+	/* //border: 1px solid black; */
+	font-size: 36px;
+	text-align:center;
+	line-height: 60px;
+	border-radius: 100px;
+	background-color: #212121;
+	color:white;
+	transition:all, 0.2s;
+	opacity:0.9;
+	/* box-shadow: 3px 5px 5px #888888; */
+}
+#theButton{
+	position:absolute;
+	top:10px;
+	right:10px;
+	font-size: 26px;
+	border-radius: 10px;
+	background-color: #212121;
+	color:white;
+}
+#odds{
+	position:absolute;
+	top:50px;
+	right: 10px;
+	font-size: 26px;
+	text-align:center;
+	padding: 15px;
+	border-radius: 10px;
+	background-color: #212121;
+	color:white;
+}
+
+#SingleBet{
+	position: relative;
+	left: 58%;
+	margin-top: 45px;
+	width:180px;
+	height:80px;
+	border: 1px solid black;
+	font-size: 42px;
+	text-align:center;
+	line-height: 80px;
+	border-radius: 100px;
+	transition:all 0.8s;
+	background-color: #FFF59D;
+}
+
+#NewPlayer
+{
+	display: none;
+	position:absolute;
+	left:45px;
+	top:-80px;
+
+	width:80px;
+	height:80px;
+	/* //border: 1px solid black; */
+	font-size: 36px;
+	text-align:center;
+	border-radius: 100px;
+	background-color:#64B5F6;
+	font-size: 64px;
+	color:white;
+	transition:all 0.1s;
+	
+}
+div#NewPlayer:active{
+	display: none;
+
+	width:90px;
+	height:90px;
+	font-size: 72px;
+}
+div#NewPlayer:hover{
+	display: none;
+
+	background-color:#FFA726;
+}
+#PlayersList{
+	display: none;
+
+	position:absolute;
+	top:230px;
+	left:83%;
+	width:100px;
+	height:800px;
+	/* //border: 1px solid black; */
+}
+#player1{
+	display: none;
+
+	margin: 25px ;
+	margin-bottom: 0;
+	width:120%;
+	height:50px;
+	border-radius: 5px;
+	border: 2px outset  black;
+	background-color:#f44336;
+	/* //border: 2px solid black; */
+	transition:all 0.3s;
+	font-size: 34px;
+	text-align:center;
+}
+div#player1:active{
+	display: none;
+
+	
+}
+      #stage { 
+        margin: 0px auto;
+        width: 800px;
+        height: 500px;
+		
+        -webkit-perspective:900;
+		perspective-origin:50% -40%;
+		
+      }
+
+      #rotate {
+        margin: 0px auto;
+		/* //border: 1px solid black; */
+        width: 800px;
+        height: 400px;
+        
+        -webkit-transform-style: preserve-3d;
+		}
+	  
+      .ring {
+        margin: 0 auto;
+        height: 110px;
+        width: 600px;
+        -webkit-transform-style: preserve-3d;
+		/* transform:rotateY(120deg); */
+		
+      }
+      
+      .ring > :nth-child(odd) {
+        background-color: #f44336;
+		transition:all 3s;
+		
+      }
+
+      .ring > :nth-child(even) {
+        background-color: #212121;
+		color:white;
+		transition:all 3s;
+      }
+
+      .poster {
+        position: absolute;
+		top: 30px;
+        left: 275px;
+        width: 50px;
+        height: 50px;
+        opacity: 0.8;
+        color: rgba(0,0,0,0.9);
+        -webkit-border-radius: 20px;
+		transition:all 3s;
+		
+      }
+      
+      .poster > p {
+        font-family: Calibri;
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 10px;
+		transform:rotateZ(10deg);
+		
+      }
+.red{
+	background-color: #ec2113;
+	
+}
+.black{
+	background-color: #212121;
+	color:white;
+	
+}
+.green{
+	background-color: #00E676;
+	
+
+}
+.type{
+	background-color: lightyellow;
+
+
+}
+#Bettable{
+	transform:rotateX(30deg);
+	transform-origin: 50% 100%;
+	transition:all 1s;
+}
+
+#css_table {
+	  margin: 150px auto;
+      display:table;
+	  
+	  width:1000px;
+	  height:250px;
+	  font-size: 24px;
+	  
+  }
+.css_tr {
+      display: table-row;
+	  border: 1px solid black;
+	  vertical-align:middle; 
+	  text-align:center;
+	  
+  }
+.css_td {
+      display: table-cell;
+	  border: 1px solid black;
+	  vertical-align:middle; 
+	  text-align:center;
+	  width:50px;
+  }
+      /*
+      Set up each row to have a different animation duration
+      and alternating y-axis rotation directions.
+      */
+      /* #ring-1 {
+        height:200px;
+		//transition:all 3s;
+		
+      }
+ */
+ img {
+    position: absolute;
+	left: 10%;
+	top: 10%;
+	width: 80%;
+	height: 80%;
+}
+	</style>
+    <script type="text/javascript">
+	
+document.onmousemove = handleClick;
+const POSTERS_PER_ROW = 37;
+const RING_RADIUS = 300;
+var NumOfTurns = 720;		//每次旋轉基底圈數(角度)
+var mouseX;
+var mouseY;
+var lock = 1;				//輪盤鎖 1:locked;	0:unlock
+var mX;						//滑鼠X軸移動量
+var mY;						//滑鼠Y軸移動量
+var TotalRotation = 0;		//目前總旋轉角度
+var direction=0; 			//0:逆順時針;	1:順時針
+var randNum = -1;			//隨機產生的數字 亦即每局輪盤開出數字
+var colorRestore = [];		//紀錄輪盤上的每個數字顏色
+var ColorOfNum = [];		//紀錄賭盤上每個格子的顏色
+var betRecord = [];			//下注紀錄表(位置/金額)
+var money = 0; 				//籌碼金額
+var toltalMoney = [];		//總金額
+	toltalMoney[0] = 1000;
+var LockOfTable = 0; 		//賭盤鎖
+var BettingOdds = [];
+var NumOfPlayer = 0;
+var TotalPlayers = 0;
+var Translation = 0;
+var ori = [];		//原先
+	ori[0] = 1000;
+var bankrupt=[];
+	bankrupt[0] = 0;
+window.onload = function() 
+{
+	/*document.getElementsByClassName('ring')[0].style.transition="all 1.5s";
+	var transform = " rotateY(0deg)";
+    document.getElementsByClassName('ring')[0].style.transform=transform;
+	document.getElementsByClassName('ring')[0].style.backgroundColor="rgba(0,0,0,1);"*/
+	Bet();
+	//document.getElementById("Bettable").style.transform = "rotateX(0deg)";
+    document.getElementById("money").innerHTML = "$"+toltalMoney[0+NumOfPlayer]+"";
+
+};
+
+var cancel=0;
+
+function Bet()
+{	
+	for(i=0;i<37;i++)			//設定數字賠率
+		BettingOdds[i] = 36; 	
+	for(i=37;i<=39;i++)			//設定橫排賠率	
+		BettingOdds[i] = 3;
+	for(i=46;i<=48;i++)			//設定 1/3 賠率
+		BettingOdds[i] = 3;
+	for(i=40;i<=45;i++)			//設定 1to18、奇偶、紅黑賠率
+		BettingOdds[i] = 2;
+	
+	var tag = document.getElementsByTagName("td");
+    for(i=0;i< tag.length;i++) //下注螢光
+	{
+		betRecord[i+Translation]=0; 
+		ColorOfNum[i] = tag[i].style.backgroundColor;		
+		
+		tag[i].onclick = function()
+		{
+			
+			if(LockOfTable==1){ return;}//{alert(LockOfTable);
+			else
+			{
+			if(toltalMoney[0+NumOfPlayer]>0 && money!=0 && toltalMoney[0+NumOfPlayer] - money >= 0)//betRecord[this.id-( -NumOfPlayer)]>=0 &&
+			{
+				
+				betRecord[this.id-( -Translation)] += money;
+				CurrentMoneyOn(this.id);
+				//alert(this.id-(-Translation));
+				this.style.backgroundColor = "#FFF176";
+				this.style.color = "#212121";
+				toltalMoney[0+NumOfPlayer] -= money;
+				printMoney();
+				
+			}
+			else if(money==0&& allin!=1 )//betRecord[this.id-( -NumOfPlayer)]!=0 )
+			{
+				
+				//alert(betRecord[this.id-( -NumOfPlayer)]);
+				toltalMoney[0+NumOfPlayer] += betRecord[this.id-( -Translation)];
+				betRecord[this.id-( -Translation)]=0;
+				CurrentMoneyOn(this.id);
+				this.style.backgroundColor = ColorOfNum[this.id];
+				if(this.className.match("black"))
+				{
+					this.style.color = "white";
+				}			
+				
+				printMoney();
+			}
+			}
+		};
+	
+	}
+}
+function printMoney()
+{
+	document.getElementById("money").innerHTML = "$"+toltalMoney[0+NumOfPlayer]+"";
+}
+function reset() //重置所有賭盤顏色
+{
+	var red = document.getElementsByClassName('red');
+	var black = document.getElementsByClassName('black');
+	var zero = document.getElementById("0");
+	var td = document.getElementsByTagName("td");
+	
+	for(i=0;i<td.length;i++)
+	{
+		td[i].style.backgroundColor = ColorOfNum[i]; //回復顏色	
+	}
+	for(i=0;i<(TotalPlayers+1)*td.length;i++)
+		betRecord[i] = 0; //結算，下注紀錄清空
+	/*for(i=0;i< red.length;i++) //紅色
+	{
+		red[i].style.backgroundColor = "#f44336";
+		red[i].style.color = "#212121";
+	}*/
+	for(i=0;i<black.length;i++) //黑色
+	{
+		black[i].style.backgroundColor = "#212121";
+		black[i].style.color = "white";
+	}
+	zero.style.backgroundColor = "#00E676";  //綠色的0
+}
+function BetAndCancel(id)
+{
+	//var i = parseInt();
+
+}
+
+function mouseon(string)
+{
+	var target = document.getElementsByClassName(""+ string +"");
+	for(var i=0; i < 18 ; i++)
+	{
+	
+		target[i].style.opacity="0.3";
+	}
+	
+	document.getElementById("0").style.opacity="0.3";
+}
+
+function mouseout(string)
+{
+	var target = document.getElementsByClassName(""+ string +"");
+	for(var i=0; i < 18 ; i++)
+	{
+	
+		target[i].style.opacity="1";
+	}
+	
+	document.getElementById("0").style.opacity="1";
+}
+
+function mouseonnumber(first,last)
+{
+	for(var i=first; i < last+1 ; i++)
+	{
+		document.getElementById(""+ i +"").style.opacity="0.3";
+	}
+}
+
+function mouseoutnumber(first,last)
+{
+	for(var i=first; i < last+1 ; i++)
+	{
+		document.getElementById(""+ i +"").style.opacity="1";
+	}
+}
+
+function mouseonnumbercenter(first1,last1,first2,last2)
+{
+	for(var i=first1; i < last1+1 ; i++)
+	{
+		document.getElementById(""+ i +"").style.opacity="0.3";
+	}
+	for(var i=first2; i < last2+1 ; i++)
+	{
+		document.getElementById(""+ i +"").style.opacity="0.3";
+	}
+}
+
+function mouseoutnumbercenter(first1,last1,first2,last2)
+{
+	for(var i=first1; i < last1+1 ; i++)
+	{
+		document.getElementById(""+ i +"").style.opacity="1";
+	}
+	for(var i=first2; i < last2+1 ; i++)
+	{
+		document.getElementById(""+ i +"").style.opacity="1";
+	}
+}
+
+function mouseon2to1(num,targetnum)
+{
+	for(var i=1; i < 37 ; i++)
+	{
+		if(i%targetnum!=num)
+		{
+		document.getElementById(""+ i +"").style.opacity="0.3";
+		}	
+	}
+	
+	document.getElementById(0).style.opacity="0.3";
+}
+
+function mouseout2to1(num,targetnum)
+{
+	for(var i=1; i < 37 ; i++)
+	{
+		if(i%targetnum!=num)
+		{
+		document.getElementById(""+ i +"").style.opacity="1";
+		}
+		
+	}
+	
+	document.getElementById("0").style.opacity="1";
+}
+
+
+
+function setup (row)
+{
+	var posterAngle = 360 / POSTERS_PER_ROW;
+	for (var i = 0; i < POSTERS_PER_ROW; i ++) 
+	{
+		var poster = document.createElement('div');
+		poster.className = 'poster';
+		var transform = 'rotateY(' + (posterAngle * i) + 'deg) translateZ(' + RING_RADIUS + 'px)';
+		poster.style.webkitTransform = transform;
+		var content = poster.appendChild(document.createElement('p'));
+		content.textContent = i;
+		row.appendChild(poster);
+	}
+	document.getElementsByClassName("poster")[0].style.backgroundColor="#689F38";
+		
+	for(i=1;i<POSTERS_PER_ROW;i++)				//set color
+	{
+		if(i<=10 || i>=19 && i<=28)
+		{
+			if(i%2==1)
+			{
+				document.getElementsByClassName("poster")[i].style.backgroundColor="#f44336" ;
+				document.getElementsByClassName("poster")[i].style.color = "black";
+			}
+			else if(i%2==0)
+			{
+				document.getElementsByClassName("poster")[i].style.backgroundColor="#212121" ;
+				document.getElementsByClassName("poster")[i].style.color = "white";
+			}
+			//else if(i>10 && i<)*/
+		}
+		
+	}
+	for(i=0 ;i< POSTERS_PER_ROW;i++)
+	{
+		document.getElementsByClassName("poster")[i].onmousedown = function() {Drag();};
+	}
+	
+}
+	
+function init ()
+{
+	
+	setup(document.getElementById('ring'));
+	
+	
+}
+
+      // call init once the document is fully loaded
+      window.addEventListener('load', init, false);
+	  
+function Rotate()
+{
+	
+	if(lock == 1)return;
+	for(i=0 ;i< POSTERS_PER_ROW;i++)
+	{
+		document.getElementsByClassName("poster")[i].onmousedown = function() {};
+	}	
+	RestoreColor();
+	var Angle = 360/POSTERS_PER_ROW;
+	randNum = Math.floor((Math.random() * 37));
+	if(direction==1 )
+	{
+		NumOfTurns-=1440;
+		if(Angle*randNum >0)
+			Angle*= -1;
+	}
+			
+	var x = NumOfTurns + Angle*randNum; //旋轉角度 = 已旋轉角度+兩圈+隨機角度;
+	if(direction==0 && randNum != 0)
+		randNum = 37 - randNum;
+	document.getElementById('ring').style.transition="all 5s";  
+	document.getElementById('ring').style.transitionTimingFunction = "ease-out";
+			
+	document.getElementById('ring').style.webkitTransform="rotateY("+ x +"deg)";//旋轉
+	NumOfTurns+=720;
+	TotalRotation = x;
+	lock = 1;
+	colorRestore[0] = document.getElementsByClassName("poster")[randNum].style.backgroundColor;
+	colorRestore[1] = randNum;
+	LockOfTable = 1; //賭盤上鎖 禁止下注
+	ChangeColor();
+
+	//document.getElementById('num').innerHTML = randNum; //(TotalRotation%360)/Angle;
+}
+
+function ChangeColor()	  
+{
+	window.setTimeout(function()
+	{
+		for(i=0 ;i< POSTERS_PER_ROW;i++)
+		{
+			document.getElementsByClassName("poster")[i].onmousedown = function() {Drag();};
+		}		
+		var obj = document.getElementsByClassName("poster")[randNum];
+		obj.style.transition = "all 0.5s";
+		obj.style.backgroundColor="#FBC02D" ;
+		obj.style.color = "black";		
+		const canvas = document.getElementById("tutorial");
+		const ctx = canvas.getContext("2d");
+		canvas.width = canvas.width
+		ctx.font = "50pt sans-serif";
+        
+        if(randNum<=10 || randNum>=19 && randNum<=28)
+		{
+			if(randNum==0)
+			{
+				ctx.fillStyle = 'green';
+			}
+			else if(randNum%2==1)
+			{
+				ctx.fillStyle = 'red';
+			}
+			else if(randNum%2==0)
+			{
+				ctx.fillStyle = 'black';
+			}
+			
+		}
+        else{
+        if(randNum%2==0)
+			{
+				ctx.fillStyle = 'red';
+			}
+        }
+		
+		if(randNum>=10)
+        {
+			ctx.fillText(randNum, 13, 70);
+		}
+        else
+        {
+        	ctx.fillText(randNum, 30, 70);
+        }	
+		pay();//結算
+		//alert(LockOfTable);
+	},5300);
+	window.setTimeout(function()
+	{		
+		reset(); //重置賭盤
+		LockOfTable = 0; //輪盤已停轉，解開下注鎖
+	
+	
+	},5800);
+	
+}
+function pay()
+{
+
+	for(j=0;j<= TotalPlayers ;j++)
+	{
+	for(i=0;i<37;i++ ) //單數字部分
+	{
+		if(betRecord[i+49*j]!=0 && randNum==i) 
+		{
+			
+			toltalMoney[j] +=  betRecord[i+49*j]* BettingOdds[i]; //toltalMoney[0+NumOfPlayer] = 下注金額 * 賠率	
+			document.getElementById(""+i+"").style.backgroundColor = "#E1BEE7";
+			if(allin==1)
+				money = toltalMoney[j];
+		}			
+	}
+	}
+	DeterWin(37,1,12,1);
+	DeterWin(38,13,24,1);
+	DeterWin(39,25,36,1);
+	DeterWin(40,1,18,1);
+	DeterWin(41,2,36,2);
+	DeterWin(44,1,35,2);
+	DeterWin(45,19,36,1);
+	DeterWin(46,1,34,3);
+	DeterWin(47,2,35,3);
+	DeterWin(48,3,36,3);
+	
+	DeterWin(42,1,9,2); //red
+	DeterWin(42,12,18,2);
+	DeterWin(42,19,27,2);
+	DeterWin(42,30,36,2);
+	
+	DeterWin(43,2,10,2); //black
+	DeterWin(43,11,17,2);
+	DeterWin(43,20,28,2);
+	DeterWin(43,29,35,2);
+	/*for(i=46;i<=48;i++ )
+	{
+		if(betRecord[i+NumOfPlayer]!=0)
+		{	
+			if(i==46 && randNum%3==1)
+				toltalMoney[0+NumOfPlayer] +=  betRecord[i+NumOfPlayer]* BettingOdds[i];
+			else if(i==47 && randNum%3==2)
+				toltalMoney[0+NumOfPlayer] +=  betRecord[i+NumOfPlayer]* BettingOdds[i];
+			else if(i==48 && randNum%3==0)
+				toltalMoney[0+NumOfPlayer] +=  betRecord[i+NumOfPlayer]* BettingOdds[i];
+		}
+	}*/
+	document.getElementById("money").innerHTML = "$"+toltalMoney[0+NumOfPlayer]+"";
+	if(ori[0]!=toltalMoney[0]){
+    	if(ori[0]>toltalMoney[0]){
+        ori[0]=ori[0]-toltalMoney[0];
+         window.alert("You lose "+ori[0]+" totally this round.");
+        ori[0]=toltalMoney[0];
+        }
+        else{
+        ori[0]=toltalMoney[0]-ori[0];
+         window.alert("You earn "+ori[0]+" totally this round.");
+        ori[0]=toltalMoney[0];
+        }
+        
+    }else
+		{
+         	window.alert("It's a tie this round.");
+		}
+ 
+	for(i=1;i<=TotalPlayers;i++)
+	{
+    	var w=i+1;
+		if(toltalMoney[i]==0 ){ //玩家破產後變灰色
+			// document.getElementById("0"+i+"").style.backgroundColor = "#545454";
+			if(bankrupt[i]!=1){
+            window.alert("you're broken! LOL");
+			document.getElementsByTagName("img")[0].style.display = 'block';
+			bankrupt[i]++;
+			}
+            }
+	}
+	if(toltalMoney[0]==0){
+		// document.getElementById("player1").style.backgroundColor = "#545454";
+		if(bankrupt[0]!=1){
+        window.alert("you're broken! LOL");
+		document.getElementsByTagName("img")[0].style.display = 'block';
+		bankrupt[0]++;
+		}
+        }
+}
+function DeterWin(id,first,last,grade)
+{
+	for(j=0;j<= TotalPlayers ;j++)
+	{
+		if(betRecord[id-( -49*j)]>0)
+		{
+			for(i=first;i<=last;i+=grade)
+			{
+				if(randNum==i)
+				{
+					toltalMoney[0+j] +=  betRecord[id-( -49*j)]* BettingOdds[id];
+					document.getElementById(""+id+"").style.backgroundColor = "#E1BEE7";
+					if(allin==1)
+						money = toltalMoney[0+NumOfPlayer];
+				}
+			}
+		}
+	}
+}
+function RestoreColor()
+{
+	if(randNum != -1)
+	{
+		document.getElementsByClassName("poster")[colorRestore[1]].style.backgroundColor = colorRestore[0];
+		//alert("enter");
+		if(colorRestore[1]%2 == 0)
+		{
+			if( colorRestore[1]<=10 || colorRestore[1]<=29 && colorRestore[1]>=19)
+				document.getElementsByClassName("poster")[colorRestore[1]].style.color ="white";
+		}	
+		else if(colorRestore[1]%2 == 1)
+		{
+			if(colorRestore[1]>=11&&colorRestore[1]<=18 || colorRestore[1]>=29 && colorRestore[1]<=36)
+				document.getElementsByClassName("poster")[colorRestore[1]].style.color ="white";
+		}
+	}
+	
+}	
+function Drag()
+{
+	mX = mouseX;
+	mY = mouseY;
+	//document.onmousemove = move(mX,mY)
+	 //Math.sqrt(Math.pow(mouseX-mX,2)+Math.pow(mouseY-mY,2));
+	
+	
+	lock = 0;		//轉盤解鎖
+	
+	document.getElementById('back').onmouseup = function() {Rotate();};
+		//document.getElementById('back').onmouseover = function() {Rotate();};	
+		
+}
+	
+function handleClick(e)
+{
+		//if(lock == 1)return;
+	if ((typeof e == "undefined")||(!e))
+		e = window.event;
+	mouseX = e.clientX;
+	mouseY = e.clientY;
+
+	//document.getElementById("button").innerHTML = mouseX+","+mouseY;
+	if(lock==0)
+	{
+		document.getElementById('ring').style.transition="";
+		
+		var Distance = mouseX-mX; //Distance/20
+		if(Distance<0) 			//往左滑
+			direction = 1;
+		else  					//往右滑
+			direction = 0;
+		var x = Distance/20+TotalRotation;
+		document.getElementById('ring').style.webkitTransform="rotateY("+ x +"deg)";
+		//Distance+=TotalRotation;
+			
+	}
+}
+var C10 = 0;
+function Chip10(obj)
+{
+	if(C10==0)
+	{
+		
+		obj.style.border = "5px inset ";
+		C10 = 1;
+		money = 10;
+		document.getElementById('Chip25').style.border = "0px outset black";
+		document.getElementById('Chip100').style.border = "0px outset black";
+		document.getElementById('AllIn').style.border = "0px outset black";
+		document.getElementById('Clear').style.border = "0px outset black";
+		C25 = 0;
+		C100 = 0;
+		allin=0;
+		clear=0;
+	}
+	else
+	{
+		C10 = 0;
+		obj.style.border = "0px outset black";
+		money = 0;
+	}
+}
+
+var C25 = 0;
+function Chip25(obj)
+{
+	if(C25==0)
+	{
+		
+		obj.style.border = "5px inset ";
+		C25 = 1;
+		money = 25;
+		document.getElementById('Chip10').style.border = "0px outset black";
+		document.getElementById('Chip100').style.border = "0px outset black";
+		document.getElementById('AllIn').style.border = "0px outset black";
+		document.getElementById('Clear').style.border = "0px outset black";
+		C10 = 0;
+		C100 = 0;
+		allin=0;
+		clear=0;
+	}
+	else
+	{
+		C25 = 0;
+		obj.style.border = "0px outset black";
+		money = 0;
+		
+	}
+}
+
+var C100 = 0;
+function Chip100(obj)
+{
+	if(C100==0)
+	{
+		
+		obj.style.border = "5px inset ";
+		C100 = 1;
+		money = 100;
+		document.getElementById('Chip10').style.border = "0px outset black";
+		document.getElementById('Chip25').style.border = "0px outset black";
+		document.getElementById('AllIn').style.border = "0px outset black";
+		document.getElementById('Clear').style.border = "0px outset black";
+		C25 = 0;
+		C10 = 0;
+		allin=0;
+		clear = 0;
+	}
+	else
+	{
+		C100 = 0;
+		obj.style.border = "0px outset black";
+		money = 0;
+		
+	}
+}
+var allin=0;
+function AllIn(obj)
+{
+	if(allin==0)
+	{
+		
+		obj.style.border = "5px inset ";
+		allin = 1;
+		//if(toltalMoney[0+NumOfPlayer]!=0)
+			money = toltalMoney[0+NumOfPlayer]; //all in 時下注金額 = 所有的錢
+		document.getElementById('Chip10').style.border = "0px outset black";
+		document.getElementById('Chip25').style.border = "0px outset black";
+		document.getElementById('Chip100').style.border = "0px outset black";
+		document.getElementById('Clear').style.border = "0px outset black";
+		C25 = 0;
+		C10 = 0;
+		C100 = 0;
+		clear=0;
+	} 
+	else
+	{
+		allin = 0;
+		obj.style.border = "0px outset black";
+		money = 0;
+		
+	}
+
+}
+var clear=0;
+function Clear(obj)
+{
+	if(clear==0)
+	{
+		
+		obj.style.border = "5px inset ";
+		clear = 1;
+		//if(toltalMoney[0+NumOfPlayer]!=0)
+			money = 0; 
+		document.getElementById('Chip10').style.border = "0px outset black";
+		document.getElementById('Chip25').style.border = "0px outset black";
+		document.getElementById('Chip100').style.border = "0px outset black";
+		document.getElementById('AllIn').style.border = "0px outset black";
+		C25 = 0;
+		C10 = 0;
+		C100 = 0;
+		allin = 0;
+	} 
+	else
+	{
+		clear = 0;
+		obj.style.border = "0px outset black";
+		money = 0;
+		
+	}
+
+}
+
+var clicked = [];
+clicked[0] = 0;
+function Player1(obj)
+{		
+		
+		NumOfPlayer = 0;
+		if(clicked[0]==0)
+		{
+			
+			//alert(NumOfPlayer);
+			//this.style.border="1px solid black";
+			obj.style.opacity="1";
+			obj.style.width ="120%";
+			obj.style.border = "2px outset  black";
+			Translation = NumOfPlayer*49;
+			Display();
+			document.getElementById("money").innerHTML = "$"+toltalMoney[0+NumOfPlayer]+"";
+			for(i=0;i<=TotalPlayers;i++)
+			{
+				if(i!=NumOfPlayer)
+				{
+					document.getElementById("0"+i+"").style.width ="50px";
+					document.getElementById("0"+i+"").style.border = "";
+				}
+			}
+			if(allin==1) //切換all in值 到對應的player
+				money = toltalMoney[0+NumOfPlayer];
+		}
+}
+function Display()
+{
+	var td = document.getElementsByTagName("td");
+	for(i=0;i<td.length;i++)
+	{
+		td[i].style.backgroundColor = ColorOfNum[i]; //全部取消螢光
+		if(td[i].className.match("black"))
+			td[i].style.color = "white";
+	}
+	/*for(i=0;i<black.length;i++) //黑色
+	{
+		black[i].style.backgroundColor = "#212121";
+		black[i].style.color = "white";
+	}*/
+	for(i=0;i<td.length;i++)
+	{
+		if(betRecord[i+Translation]>0)
+		{
+			document.getElementById(""+ i +"").style.backgroundColor = "#FFF176";
+			document.getElementById(""+ i +"").style.color = "#212121";
+			
+		}
+	}
+
+
+}
+var d;
+function newPlayer()
+{
+	var r = Math.floor((Math.random() * 254));
+	var g = Math.floor((Math.random() * 254));
+	var b = Math.floor((Math.random() * 254));
+	var Plist = document.getElementById('PlayersList');
+	var palyer = document.createElement("div");
+	palyer.style.transition = 'all 0.3s';
+	//palyer.style.color='rgba('+ r +', '+ g +', '+ b +', 0)';
+	var x = TotalPlayers+2;
+	palyer.innerHTML = 'P'+x;
+	
+	Plist.appendChild(palyer);
+	
+	palyer.offsetHeight;
+	palyer.style.color='black';
+	palyer.style.margin = '25px';   
+	palyer.style.width="50px";
+	palyer.style.height="50px";
+	palyer.style.backgroundColor='rgba('+ r +','+ g +','+ b +',1)';
+	palyer.style.borderRadius="5px";
+	palyer.style.fontSize="34px";
+	palyer.style.textAlign="center";
+	palyer.style.opacity="1";
+	
+	TotalPlayers++;
+	for(i=TotalPlayers*49;i < TotalPlayers*49+49;i++)
+	{
+		
+		betRecord[i] = 0;
+	}
+	palyer.id = "0"+TotalPlayers+"";
+	ori[TotalPlayers]=1000;
+	bankrupt[TotalPlayers]=0;
+	toltalMoney[TotalPlayers]=1000;
+	clicked[TotalPlayers] = 0;
+	
+	palyer.onmouseover = function() {this.style.opacity="1";};
+	
+	
+	palyer.onclick = function()
+	{
+		NumOfPlayer = parseInt(this.id);
+		
+		if(clicked[NumOfPlayer]==0)
+		{
+			
+			//alert(NumOfPlayer);
+			//this.style.border="1px solid black";
+			this.style.opacity="1";
+			this.style.width ="120%";
+			this.style.border = "2px outset  black";
+			Translation = NumOfPlayer*49;	
+			Display();
+			document.getElementById("money").innerHTML = "$"+toltalMoney[0+NumOfPlayer]+"";
+			for(i=1;i<=TotalPlayers;i++)
+			{
+				//alert(i+","+NumOfPlayer);
+				if(i!=NumOfPlayer)
+				{
+					
+					document.getElementById("0"+i+"").style.width ="50px";
+					document.getElementById("0"+i+"").style.border = "";
+
+				}
+				document.getElementById("player1").style.width ="50px";
+				document.getElementById("player1").style.border = "";
+
+			}
+			if(allin==1) //切換all in值 到對應的player
+				money = toltalMoney[0+NumOfPlayer];
+			
+		}
+		
+
+		/*else if(clicked[NumOfPlayer]==1)
+		{
+			
+			alert(NumOfPlayer);
+			Translation = NumOfPlayer*49;	
+			clicked[NumOfPlayer]=0;
+		}*/
+	};
+	//document.getElementById('PlayersList').appendChild
+
+}
+
+function CurrentMoneyOn(Id)
+{	
+	var i = Id
+	document.getElementById("SingleBet").innerHTML = "$"+betRecord[i-(-Translation)];
+}
+
+function CurrentMoneyOff()
+{
+	document.getElementById("SingleBet").innerHTML = "";
+}
+
+var oddsBut=0;
+function clickOdds()
+{
+	if(oddsBut==0)
+	{
+		oddsBut = 1;
+		document.getElementById('odds').style.display = 'block'; 
+	}
+	else
+	{
+		oddsBut = 0;
+		document.getElementById('odds').style.display = 'none'; 
+	}
+}
+
+var borrowTimes = 0;
+function borrow()
+{
+	borrowTimes++;
+	toltalMoney[0] = toltalMoney[0]+1000;
+	printMoney();
+	window.alert("You've borrowed $1000.")
+}
+function endGame()
+{
+	var net = toltalMoney[0] - (borrowTimes*1000);
+	if(net > 1000)
+	{
+		net = net-1000;
+		window.alert("Great game. Your net earning is "+net+" !");
+	}
+	else if(net < 1000)
+	{
+		net = net-1000;
+		window.alert("You loser. Your net earning is "+net+" !");
+	}
+	else
+	{
+		net = net-1000;
+		window.alert("Did you even play? 0 net earning!");
+	}
+	toltalMoney[0] = 1000;
+	borrowTimes = 0;
+	printMoney();
+}
+
+
+
+document.onclick = handleClick;
+    </script>
+  </head>
+  
+  <body onselectstart="return false;" ondragstart="return false;">
+  <br>
+    <br>
+	  <br>
+	    <br>
+   <canvas id="tutorial" width="100" height="100"></canvas>
+    <div id="back">
+		
+		<div id="PlayersList"> 
+			<div id="NewPlayer" onclick="newPlayer()">+</div>
+			
+			<div id="player1" onclick="Player1(this)">P1</div>
+		</div>
+		<!-- <button id="button" onclick="push()">test</button>
+		<div id="num">rand</div> -->
+		<div id="money"> </div>
+		<div id="Chip10" onclick="Chip10(this)">$10</div>
+		<div id="Chip25" onclick="Chip25(this)">$25</div>
+		<div id="Chip100" onclick="Chip100(this)">$100</div>
+		<div id="AllIn" onclick="AllIn(this)">All In</div>
+		<div id="Clear" onclick="Clear(this)">Clear</div>
+	<div id="stage">
+		<div id="rotate">
+		<div id="ClickToRotate"></div>
+        <div id="ring" class="ring"></div>
+		
+		<div id="Bettable">
+		<table id="bet_table">
+		<tbody>
+		<tr>
+		<td rowspan="6" class="green" id="0" onmouseover="mouseonnumbercenter(1,36,1,36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(1,36,1,36);CurrentMoneyOff()">0</td>
+		</tr>
+		<tr>
+		<td class="red 1to12" id="1" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">1</td>
+		<td class="black 1to12" id="4" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">4</td>
+		<td class="red 1to12" id="7" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">7</td>
+		<td class="black 1to12" id="10" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">10</td>
+		<td class="black" id="13" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">13</td>
+		<td class="red" id="16" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">16</td>
+		<td class="red" id="19" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">19</td>
+		<td class="black" id="22" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">22</td>
+		<td class="red" id="25" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">25</td>
+		<td class="black" id="28" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">28</td>
+		<td class="black" id="31" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">31</td>
+		<td class="red" id="34" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">34</td>
+		<!-- <td class="type" id="46" onmouseover="mouseon2to1(1,3);CurrentMoneyOn(this.id)" onmouseout="mouseout2to1(1,3);CurrentMoneyOff()">2to1</td> -->
+		</tr>
+		<tr>
+		<td class="black 1to12" id="2" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">2</td>
+		<td class="red 1to12" id="5" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">5</td>
+		<td class="black 1to12" id="8" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">8</td>
+		<td class="black 1to12" id="11" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">11</td>
+		<td class="red" id="14" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">14</td>
+		<td class="black" id="17" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">17</td>
+		<td class="black" id="20" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">20</td>
+		<td class="red" id="23" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">23</td>
+		<td class="black" id="26" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">26</td>
+		<td class="black" id="29" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">29</td>
+		<td class="red" id="32" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">32</td>
+		<td class="black" id="35" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">35</td>
+		<!-- <td class="type" id="47" onmouseover="mouseon2to1(2,3);CurrentMoneyOn(this.id)" onmouseout="mouseout2to1(2,3);CurrentMoneyOff()">2to1</td> -->
+		</tr>
+		<tr>
+		<td class="red 1to12" id="3" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">3</td>
+		<td class="black 1to12" id="6" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">6</td>
+		<td class="red 1to12" id="9" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">9</td>
+		<td class="red 1to12" id="12" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">12</td>
+		<td class="black" id="15" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">15</td>
+		<td class="red" id="18" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">18</td>
+		<td class="red" id="21" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">21</td>
+		<td class="black" id="24" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">24</td>
+		<td class="red" id="27" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">27</td>
+		<td class="red" id="30" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">30</td>
+		<td class="black" id="33" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">33</td>
+		<td class="red" id="36" onmouseover="mouseonnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,this.id-1,this.id-(-1),36);CurrentMoneyOff()">36</td>
+		<!-- <td class="type" id="48" onmouseover="mouseon2to1(0,3);CurrentMoneyOn(this.id)" onmouseout="mouseout2to1(0,3);CurrentMoneyOff()">2to1</td> -->
+		</tr>
+		<tr>
+		<td colspan="4" class="type lower1of3" id="37" onmouseover="mouseonnumbercenter(13,36,0,0);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(13,36,0,0);CurrentMoneyOff()">1<sup>st</sup> 12</td>
+		<td colspan="4" class="type lower1of3" id="38" onmouseover="mouseonnumbercenter(0,12,25,36);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(0,12,25,36);CurrentMoneyOff()">2<sup>nd</sup> 12</td>
+		<td colspan="4" class="type lower1of3" id="39" onmouseover="mouseonnumber(0,24);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumber(0,24);CurrentMoneyOff()">3<sup>rd</sup> 12</td>
+		</tr>
+		<tr>
+		<td colspan="2" class="type lower1of3" id="40" onmouseover="mouseonnumbercenter(19,36,0,0);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumbercenter(19,36,0,0);CurrentMoneyOff()">1 - 18</td>
+		<td colspan="2" class="type lower1of3" id="41" onmouseover="mouseon2to1(0,2);CurrentMoneyOn(this.id)" onmouseout="mouseout2to1(0,2);CurrentMoneyOff()">EVEN</td>
+		<td colspan="2" class="type lower1of3" id="42" onmouseover="mouseon('black');CurrentMoneyOn(this.id)" onmouseout="mouseout('black');CurrentMoneyOff()"><div id="redbutton"></div></td>
+		<td colspan="2" class="type lower1of3" id="43" onmouseover="mouseon('red');CurrentMoneyOn(this.id)" onmouseout="mouseout('red');CurrentMoneyOff()"><div id="blackbutton"></div></td>
+		<td colspan="2" class="type lower1of3" id="44" onmouseover="mouseon2to1(1,2);CurrentMoneyOn(this.id)" onmouseout="mouseout2to1(1,2);CurrentMoneyOff()">ODD</td>
+		<td colspan="2" class="type lower1of3" id="45" onmouseover="mouseonnumber(0,18);CurrentMoneyOn(this.id)" onmouseout="mouseoutnumber(0,18);CurrentMoneyOff()">19 - 36</td></tr>
+		</tbody>
+		</table>
+      </div>
+    </div>
+	</div>
+	</div>
+	<button id="theButton" onclick="clickOdds()">賠率</button>
+	<p id="odds" style="display: none;">
+		賠率表<br><br>
+		賭數字 1:35<br><br>
+		賭數字下第1行(1st 12) 1:2<br><br>
+		賭數字下第2行(1 to 18、EVEN、顏色) 1:1
+	</p>
+	<button id="theButton" style="right:100px;"  onclick="borrow()">貸款</button>
+	<button id="theButton" style="right:190px;"  onclick="endGame()">結算</button>
+	<div id="SingleBet"></div>
+	<img style="display: none" src="img.png" alt="image">
+  </body>
+  
+</html>
